@@ -1,0 +1,47 @@
+"use client";
+
+import Link from "next/link";
+import { Button } from "@/components/ui/button";
+import Image from "next/image";
+import { motion } from "motion/react";
+
+export default function HomeWelcome() {
+  return (
+    <>
+      <motion.dev
+        initial={{ opacity: 0, x: -100 }}
+        animate={{ opacity: 1, x: 0 }}
+        transition={{ type: "spring", stiffness: 100 }}
+        className="filter"
+      >
+        <Image
+          alt="welcome"
+          src="/images/registration_student.png"
+          width={600}
+          height={600}
+        />
+      </motion.dev>
+
+      <motion.dev
+        initial={{ opacity: 0, x: 100 }}
+        animate={{ opacity: 1, x: 0 }}
+        transition={{ type: "spring", stiffness: 100 }}
+      >
+        <p className="text-white text-2xl max-w-[800px]">
+          შექმენი ჯგუფი, მოიწვიე თანაკურსელები და გააზიარე სასწავლო მასალა და
+          დამატებით ინფორმაცია
+        </p>
+        <div className="flex items-center gap-2 mt-6">
+          <Link className="cursor-pointer" href="/login">
+            <Button className="cursor-pointer">შესვლა</Button>
+          </Link>
+          <Link className="cursor-pointer" href="/login">
+            <Button className="cursor-pointer" variant="outline">
+              რეგისტრაცია
+            </Button>
+          </Link>
+        </div>
+      </motion.dev>
+    </>
+  );
+}
