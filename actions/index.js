@@ -4,7 +4,7 @@ import { api } from "@/lib/fetching";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 
-export async function Test(prevState, formData) {
+export async function RegisterUser(prevState, formData) {
   try {
     const username = formData.get("username");
     const password = formData.get("password");
@@ -75,6 +75,59 @@ export async function Test(prevState, formData) {
     console.error(error);
     return {
       message: "erorr",
+    };
+  }
+}
+
+export async function LoginUser(prevState, formData) {
+  try {
+    const username = formData.get("username");
+    const password = formData.get("password");
+
+    const errors = [];
+
+    if (!username || !password) {
+      errors.push("სახელი და პაროლი აუცილებელია");
+    }
+
+    if (errors.length > 0) {
+      return {
+        errors,
+      };
+    }
+
+    const data = {
+      username,
+      password,
+    };
+
+    const response = await api.post("/login", data, {
+      headers: {
+        "Content-Type": "application/json",
+      },
+      validateStatus: (status) =>
+        status === 200 || status === 201 || status === 400,
+    });
+
+    if (response.status === 200) {
+      const token = response.data.token;
+      const cookieStore = cookies();
+      cookieStore.set("token", token, {
+        httpOnly: true,
+        secure: true,
+        path: "/",
+        maxAge: 60 * 60 * 24 * 7,
+      });
+
+      return {
+        success: true,
+      };
+    }
+  } catch (error) {
+    return {
+      errors: [
+        "მომხარებლის ნახვა მოცემული სახელით ვერ მოხერხდა, ან ხარვეზია სერვერზე",
+      ],
     };
   }
 }

@@ -1,18 +1,17 @@
 "use client";
 
 import { motion } from "motion/react";
-import Image from "next/image";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
-import { RegisterUser } from "@/actions";
-import { useFormState } from "react-dom";
 import { useActionState, useEffect } from "react";
+import { LoginUser } from "@/actions";
 import { useRouter } from "next/navigation";
 
-export default function RegisterForm() {
+export default function LoginForm() {
   const router = useRouter();
-  const [state, formAction] = useActionState(RegisterUser, {
+  const [state, formAction] = useActionState(LoginUser, {
+    errors: [],
     values: {
       username: "",
       password: "",
@@ -33,7 +32,7 @@ export default function RegisterForm() {
       }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ type: "spring", stiffness: 100 }}
-      className="bg-[#cad5e2] mt-8 rounded-md p-4 text-black"
+      className="bg-[#cad5e2] mt-8 rounded-md p-4 text-black w-[60%] m-auto"
     >
       <form className="p-8" action={formAction}>
         <div className="flex flex-col gap-6">
@@ -47,7 +46,6 @@ export default function RegisterForm() {
                 textTransform: "none",
               }}
               name="username"
-              defaultValue={state?.values?.username ?? ""}
             />
           </div>
           <div className="flex flex-col gap-2">
@@ -62,10 +60,10 @@ export default function RegisterForm() {
         </div>
 
         <div className="flex items-center gap-4 mt-6">
-          <Button className="cursor-pointer">რეგისტრაცია</Button>
-          <Link href="/login">
+          <Button className="cursor-pointer">შესვლა</Button>
+          <Link href="/register">
             <Button className="cursor-pointer" variant="destructive">
-              ავტორიზაცია
+              რეგისტრაცია
             </Button>
           </Link>
         </div>
