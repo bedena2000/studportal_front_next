@@ -1,7 +1,6 @@
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
 import Link from "next/link";
-import { motion } from "framer-motion";
 import HomeWelcome from "@/components/home/home-welcome";
 
 export default function Home() {

@@ -8,7 +8,7 @@ import { motion } from "motion/react";
 export default function HomeWelcome() {
   return (
     <>
-      <motion.dev
+      <motion.div
         initial={{ opacity: 0, x: -100 }}
         animate={{ opacity: 1, x: 0 }}
         transition={{ type: "spring", stiffness: 100 }}
@@ -20,28 +20,28 @@ export default function HomeWelcome() {
           width={600}
           height={600}
         />
-      </motion.dev>
+      </motion.div>
 
-      <motion.dev
+      <motion.div
         initial={{ opacity: 0, x: 100 }}
         animate={{ opacity: 1, x: 0 }}
         transition={{ type: "spring", stiffness: 100 }}
       >
         <p className="text-white text-2xl max-w-[800px]">
-          შექმენი ჯგუფი, მოიწვიე თანაკურსელები და გააზიარე სასწავლო მასალა და
-          დამატებით ინფორმაცია
+          შექმენი ჯგუფი, მოიწვიე თანაკურსელები, გააზიარე სასწავლო მასალა და
+          დამატებითი ინფორმაცია
         </p>
         <div className="flex items-center gap-2 mt-6">
           <Link className="cursor-pointer" href="/login">
             <Button className="cursor-pointer">შესვლა</Button>
           </Link>
-          <Link className="cursor-pointer" href="/login">
+          <Link className="cursor-pointer" href="/register">
             <Button className="cursor-pointer" variant="outline">
               რეგისტრაცია
             </Button>
           </Link>
         </div>
-      </motion.dev>
+      </motion.div>
     </>
   );
 }
