@@ -59,7 +59,7 @@ export async function RegisterUser(prevState, formData) {
 
     if (response.status === 201) {
       const token = response.data.token;
-      const cookieStore = cookies();
+      const cookieStore = await cookies();
       cookieStore.set("token", token, {
         httpOnly: true,
         secure: true,
@@ -111,7 +111,7 @@ export async function LoginUser(prevState, formData) {
 
     if (response.status === 200) {
       const token = response.data.token;
-      const cookieStore = cookies();
+      const cookieStore = await cookies();
       cookieStore.set("token", token, {
         httpOnly: true,
         secure: true,
@@ -121,6 +121,7 @@ export async function LoginUser(prevState, formData) {
 
       return {
         success: true,
+        username: response.data.username,
       };
     }
   } catch (error) {
@@ -130,4 +131,17 @@ export async function LoginUser(prevState, formData) {
       ],
     };
   }
+}
+
+export async function logout() {
+  const cookieStore = await cookies();
+
+  cookieStore.set("token", "", {
+    httpOnly: true,
+    secure: true,
+    path: "/",
+    maxAge: 0,
+  });
+
+  redirect("/login");
 }

@@ -20,6 +20,17 @@ export default function LoginForm() {
 
   useEffect(() => {
     if (state?.success) {
+      const username = state.username;
+
+      function setCookie(name, value, days) {
+        const date = new Date();
+        date.setTime(date.getTime() + days * 24 * 60 * 60 * 1000);
+        const expires = "expires=" + date.toUTCString();
+        document.cookie = `${name}=${value}; ${expires}; path=/`;
+      }
+
+      setCookie("username", username, 7);
+
       router.push("/dashboard");
     }
   }, [state?.success, router]);
