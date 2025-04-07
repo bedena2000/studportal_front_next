@@ -1,4 +1,6 @@
 import DashboardHeader from "@/components/dashboard/header";
+import Navigation from "@/components/dashboard/navigation/navigation";
+import AnimatedWrapper from "@/components/dashboard/wrapper/animated-wrapper";
 
 export const metadata = {
   title: "Dashboard",
@@ -7,10 +9,20 @@ export const metadata = {
 
 export default function DashboardLayout({ children }) {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-indigo-900 via-blue-900 to-blue-800 p-16
-    ">
-      <DashboardHeader />
-      {children}
+    <div
+      className="min-h-screen bg-gradient-to-br from-indigo-900 via-blue-900 to-blue-800 p-16
+    "
+    >
+      <div>
+        <DashboardHeader />
+      </div>
+      <div className="mt-6 flex gap-6">
+        <div>
+          <Navigation />
+        </div>
+
+        <AnimatedWrapper>{children}</AnimatedWrapper>
+      </div>
     </div>
   );
 }

@@ -23,9 +23,13 @@ export async function middleware(request) {
   }
 
   if (token && (pathname === "/login" || pathname === "/register")) {
-    const result = await checkIfTokenCorrect(token);
-    if (result.authenticated) {
-      return NextResponse.redirect(new URL("/dashboard", request.url));
+    try {
+      const result = await checkIfTokenCorrect(token);
+      if (result.authenticated) {
+        return NextResponse.redirect(new URL("/dashboard", request.url));
+      }
+    } catch (error) {
+      return NextResponse.redirect(new URL("/error", request.url));
     }
   }
 
