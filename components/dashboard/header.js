@@ -17,7 +17,7 @@ export default function DashboardHeader() {
       animate={{ opacity: 1, y: 0 }}
       transition={{ type: "spring", stiffness: 100 }}
     >
-      <header className="text-white border p-4 rounded-3xl flex items-center justify-between">
+      <header className="text-white border-2 p-4 rounded-3xl flex items-center justify-between">
         <div>
           <Username />
         </div>

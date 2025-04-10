@@ -145,3 +145,96 @@ export async function logout() {
 
   redirect("/login");
 }
+
+export async function createGroup(prevState, formData) {
+  try {
+    const groupName = formData.get("group_name");
+    const groupDescription = formData.get("group_description");
+
+    const errors = [];
+
+    if (!groupName || !groupDescription) {
+      errors.push("სახელი და აღწერა აუცილებელია");
+    }
+
+    if (groupName.length < 4) {
+      errors.push("ჯგუფის სახელი უნდა შეიცავდეს მინიმუმ 4 სიმბოლოს");
+    }
+
+    if (groupDescription.length < 4) {
+      errors.push("ჯგუფის აღწერა უნდა შეიცავდეს მინიმუმ 4 სიმბოლოს");
+    }
+
+    if (errors.length > 0) {
+      return {
+        errors,
+      };
+    }
+
+    // Creating a group
+    const cookieStore = cookies();
+    const userToken = (await cookieStore).get("token");
+
+    if (!userToken) {
+      return {
+        errors: ["დაფიქსირდა შეცდომა, გთხოვთ სცადეთ ხელახლა"],
+      };
+    }
+
+    const token = userToken.value;
+
+    const data = {
+      groupName: groupName,
+      groupDescription: groupDescription,
+      userToken: token,
+    };
+
+    const newGroup = await api.post("/groups/create", data, {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    if (newGroup.status === 200) {
+      return {
+        message: "success",
+        group: newGroup.data,
+      };
+    }
+
+    return {
+      errors: ["დაფიქსირდა შეცდომა, გთხოვთ სცადეთ ხელახლა"],
+    };
+  } catch (error) {
+    console.log(error);
+    return {
+      errors: ["დაფიქსირდა შეცდომა, გთხოვთ სცადეთ ხელახლა"],
+    };
+  }
+}
+
+export async function getAllGroups() {
+  const groups = await api.get("/groups/all");
+  return groups.data;
+}
+
+export async function getUsersGroups() {
+  const cookieStore = cookies();
+  const userToken = (await cookieStore).get("token");
+
+  if (!userToken) {
+    throw new Error("Something went wrong");
+  }
+
+  const groups = await api.get("groups/user_groups", {
+    headers: {
+      Authorization: `Bearer ${userToken.value}`,
+    },
+  });
+
+  if (!groups.message === "success") {
+    throw new Error("Something went wrong");
+  }
+
+  return groups.data.groups;
+}

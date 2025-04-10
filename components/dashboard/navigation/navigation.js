@@ -16,8 +16,8 @@ export default function Navigation() {
       animate={{ opacity: 1, x: 0 }}
       transition={{ type: "spring", stiffness: 100 }}
     >
-      <div className="text-white border rounded-3xl w-[300px] h-[600px]">
-        <div className="p-4 border-b border-b-blue-200">
+      <div className="text-white border-2 rounded-3xl w-[300px] h-[600px]">
+        <div className="p-4 border-b-2 border-b-blue-200">
           <Link href="/dashboard/create">
             <Button
               variant="destructive"
@@ -29,14 +29,24 @@ export default function Navigation() {
           </Link>
         </div>
 
-        <div className="mt-4">
+        <div className="mt-4 flex flex-col gap-4">
           <div>
             <Link
               href="/dashboard"
-              className="flex items-center gap-2 border p-2 border-r-0 border-l-0 bg-transparent hover:bg-white/10"
+              className="flex items-center gap-2 border-2 p-2 border-r-0 border-l-0 bg-gray-600 hover:bg-white/10"
             >
               <GoHome size={22} color="white" />
               <p className="font-normal">მთავარი</p>
+            </Link>
+          </div>
+
+          <div>
+            <Link
+              href="/dashboard/user-groups"
+              className="flex items-center gap-2 border-2 p-2 border-r-0 border-l-0 bg-gray-600 hover:bg-white/10"
+            >
+              <GoHome size={22} color="white" />
+              <p className="font-normal">ჩემი ჯგუფები</p>
             </Link>
           </div>
         </div>

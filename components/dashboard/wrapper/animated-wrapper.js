@@ -10,9 +10,9 @@ export default function AnimatedWrapper({ children }) {
       }}
       animate={{ opacity: 1, x: 0 }}
       transition={{ type: "spring", stiffness: 100 }}
-      className="h-auto border p-4 rounded-3xl w-full text-white"
+      className="border-2 p-4 rounded-3xl w-full text-white h-[600px] overflow-auto"
     >
-      <div className="">{children}</div>
+      <div className="overflow-auto">{children}</div>
     </motion.div>
   );
 }

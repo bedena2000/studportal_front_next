@@ -1,7 +1,15 @@
+import CreateGroup from "@/components/dashboard/create/create-group";
+
 export default function DashbordCreatePage() {
   return (
     <div>
-      <p>create</p>
+      <div className="text-center">
+        <p className="text-2xl">ჯგუფის შექმნა</p>
+      </div>
+
+      <div>
+        <CreateGroup />
+      </div>
     </div>
-  )
+  );
 }
