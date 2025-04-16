@@ -16,7 +16,7 @@ export default function DashboardLayout({ children }) {
       <div>
         <DashboardHeader />
       </div>
-      <div className="mt-6 flex gap-6">
+      <div className="mt-6 flex justify-stretch gap-6">
         <div>
           <Navigation />
         </div>

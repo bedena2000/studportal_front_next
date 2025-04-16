@@ -4,7 +4,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { createGroup } from "@/actions";
-import { useActionState, useEffect } from "react";
+import { useActionState, useEffect, useState } from "react";
 import Link from "next/link";
 import { FaArrowLeft } from "react-icons/fa";
 import { useRouter } from "next/navigation";
@@ -15,7 +15,6 @@ export default function CreateGroup() {
   const [state, formAction] = useActionState(createGroup, {
     errors: [],
   });
-
 
   useEffect(() => {
     if (state.message === "success") {

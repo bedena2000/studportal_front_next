@@ -15,8 +15,9 @@ export default function Navigation() {
       }}
       animate={{ opacity: 1, x: 0 }}
       transition={{ type: "spring", stiffness: 100 }}
+      className="h-full"
     >
-      <div className="text-white border-2 rounded-3xl w-[300px] h-[600px]">
+      <div className="text-white border-2 rounded-3xl w-[300px] h-full">
         <div className="p-4 border-b-2 border-b-blue-200">
           <Link href="/dashboard/create">
             <Button

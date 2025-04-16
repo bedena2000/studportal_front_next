@@ -1,6 +1,6 @@
 import CreateGroup from "@/components/dashboard/create/create-group";
 
-export default function DashbordCreatePage() {
+export default async function DashbordCreatePage() {
   return (
     <div>
       <div className="text-center">

@@ -133,6 +133,8 @@ export async function LoginUser(prevState, formData) {
   }
 }
 
+// Logout
+
 export async function logout() {
   const cookieStore = await cookies();
 
@@ -145,6 +147,8 @@ export async function logout() {
 
   redirect("/login");
 }
+
+// Create a group
 
 export async function createGroup(prevState, formData) {
   try {
@@ -213,10 +217,14 @@ export async function createGroup(prevState, formData) {
   }
 }
 
+// Get all groups
+
 export async function getAllGroups() {
   const groups = await api.get("/groups/all");
   return groups.data;
 }
+
+// Get all groups that belong the user
 
 export async function getUsersGroups() {
   const cookieStore = cookies();
@@ -237,4 +245,46 @@ export async function getUsersGroups() {
   }
 
   return groups.data.groups;
+}
+
+// Get group detail
+
+export async function getGroupDetail(groupId) {
+  const cookieStore = cookies();
+  const userToken = (await cookieStore).get("token");
+
+  if (!userToken) {
+    throw new Error("Something went wrong");
+  }
+
+  try {
+    const result = await api.get(`groups/group_detail?groupId=${groupId}`, {
+      headers: {
+        Authorization: `Bearer ${userToken.value}`,
+      },
+    });
+    return result.data;
+  } catch (error) {
+    if (error.response?.status === 403) {
+      return error.response.data;
+    }
+    throw error;
+  }
+}
+
+// Sent request for joining in group
+
+export async function joinGroup(groupId) {}
+
+// Check if user is group admin
+
+export async function IsAdmin(groupId) {
+  const cookieStore = cookies();
+  const userToken = (await cookieStore).get("token");
+
+  if (!userToken) {
+    throw new Error("Something went wrong");
+  }
+
+  
 }
