@@ -1,7 +1,8 @@
 "use server";
 
 import { api } from "@/lib/fetching";
-import { cookies } from "next/headers";
+import { revalidatePath } from "next/cache";
+import { cookies, headers } from "next/headers";
 import { redirect } from "next/navigation";
 
 export async function RegisterUser(prevState, formData) {
@@ -278,7 +279,18 @@ export async function joinGroup(groupId) {}
 
 // Check if user is group admin
 
-export async function IsAdmin(groupId) {
+// export async function IsAdmin(groupId) {
+//   const cookieStore = cookies();
+//   const userToken = (await cookieStore).get("token");
+
+//   if (!userToken) {
+//     throw new Error("Something went wrong");
+//   }
+
+// }
+
+// Get all group messages
+export async function getAllGroupMessages(groupId) {
   const cookieStore = cookies();
   const userToken = (await cookieStore).get("token");
 
@@ -286,5 +298,139 @@ export async function IsAdmin(groupId) {
     throw new Error("Something went wrong");
   }
 
-  
+  try {
+    const result = await api.get(`/messages/all?groupId=${groupId}`, {
+      headers: {
+        Authorization: `Bearer ${userToken.value}`,
+      },
+    });
+
+    return result.data;
+  } catch (error) {
+    console.error(error);
+    return [];
+  }
+}
+
+// Send new message
+export async function sendNewMessage(prevState, formData) {
+  const message = formData.get("messageContent");
+  const groupId = Number(formData.get("groupId"));
+
+  const errorList = [];
+
+  const cookieStore = cookies();
+  const userToken = (await cookieStore).get("token");
+
+  if (!userToken) {
+    errorList.push("მესიჯი ვერ იქნება ცარიელი");
+  }
+
+  if (message.trim().length === 0) {
+    errorList.push("მესიჯი ვერ იქნება ცარიელი");
+  }
+
+  if (errorList.length > 0) {
+    return {
+      error: errorList,
+    };
+  }
+
+  try {
+    const result = await api.post(
+      `/messages/new?groupId=${groupId}`,
+      {
+        content: message,
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${userToken.value}`,
+        },
+      }
+    );
+
+    return {
+      data: result.data,
+      error: [],
+      success: true,
+    };
+  } catch (error) {
+    errorList.push("დაფიქსირდა შეცდომა, გთხოვთ სცადეთ ხელახლა");
+    console.error(error);
+    return {
+      error: errorList,
+    };
+  }
+}
+
+// Send an image
+export async function SendImage(prevState, formData) {
+  const uploadedFile = formData.get("uploadedFile");
+  const groupId = Number(formData.get("groupId"));
+
+  const cookieStore = cookies();
+  const userToken = (await cookieStore).get("token");
+
+  const errorList = [];
+
+  if (!uploadedFile || !groupId) {
+    errorList.push("დაფიქსირდა შეცდომა");
+  }
+
+  if (!userToken) {
+    errorList.push("მესიჯი ვერ იქნება ცარიელი");
+  }
+
+  if (errorList.length > 0) {
+    return {
+      error: errorList,
+    };
+  }
+
+  try {
+    const data = new FormData();
+    data.append("file", uploadedFile);
+
+    console.log("uploading");
+
+    const result = await api.post(`/files/upload?groupId=${groupId}`, data, {
+      headers: {
+        Authorization: `Bearer ${userToken.value}`,
+      },
+    });
+
+    console.log(result);
+
+    return {
+      success: true,
+      file: result.data.file,
+    };
+  } catch (error) {
+    console.error(error);
+    return {
+      error: errorList,
+    };
+  }
+}
+
+export async function gellAllGroupsFiles(groupId) {
+  const cookieStore = cookies();
+  const userToken = (await cookieStore).get("token");
+
+  if (!userToken) {
+    throw new Error("Authentication token not found");
+  }
+
+  try {
+    const result = await api.get(`/files/all?groupId=${groupId}`, {
+      headers: {
+        Authorization: `Bearer ${userToken.value}`,
+      },
+    });
+
+    return result.data;
+  } catch (error) {
+    console.error("Failed to fetch files:", error);
+    return [];
+  }
 }
