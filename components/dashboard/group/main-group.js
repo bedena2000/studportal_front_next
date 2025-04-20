@@ -32,8 +32,8 @@ export default async function MainGroup({ groupInfo, isAdmin }) {
           <ContentList content={sortedContent} />
         )}
       </div>
-      <div className="col-span-2 row-span-5 col-start-4 row-start-1 rounded-md p-4 bg-[#1e1a4d] flex flex-col gap-2">
-        <GroupNavigation isAdmin={isAdmin} />
+      <div className="col-span-2 row-span-5 col-start-4 row-start-1 ">
+        <GroupNavigation isAdmin={isAdmin} groupId={groupInfo.id} />
       </div>
     </div>
   );
