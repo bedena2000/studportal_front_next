@@ -9,6 +9,8 @@ export default function ContentList({ content }) {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, []);
 
+  console.log(content);
+
   return (
     <>
       {content.map((item) => (
@@ -26,15 +28,23 @@ export default function ContentList({ content }) {
             })}
           </span>
           {item.fileUrl ? (
-            <a
-              href={`http://localhost:5000${item.fileUrl}`}
-              download
-              className="bg-purple-800 rounded-md p-2 border text-white hover:underline w-fit"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              📎 {item.fileName}
-            </a>
+            /\.(jpg|jpeg|png|gif|webp)$/i.test(item.fileName) ? (
+              <img
+                src={`http://localhost:5000${item.fileUrl}`}
+                alt={item.fileName}
+                className="max-w-xs rounded-md border"
+              />
+            ) : (
+              <a
+                href={`http://localhost:5000${item.fileUrl}`}
+                download
+                className="bg-purple-800 rounded-md p-2 border text-white hover:underline w-fit"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                📎 {item.fileName}
+              </a>
+            )
           ) : (
             <p className="bg-sky-900 rounded-md p-2 border">{item.content}</p>
           )}

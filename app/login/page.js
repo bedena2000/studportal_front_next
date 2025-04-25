@@ -7,7 +7,7 @@ import GoBack from "@/components/navigation/arrows/go-back";
 
 export default function LoginPage() {
   return (
-    <div className="w-screen h-screen bg-gradient-to-r from-blue-950 to-blue-800 p-12 text-white">
+    <div className="w-screen h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-purple-900 p-12 text-white">
       <div>
         <GoBack />
       </div>
@@ -17,8 +17,6 @@ export default function LoginPage() {
       </div>
 
       <LoginForm />
-
-
     </div>
   );
 }

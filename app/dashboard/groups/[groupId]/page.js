@@ -4,10 +4,13 @@ import MainGroup from "@/components/dashboard/group/main-group";
 import { Button } from "@/components/ui/button";
 import { notFound } from "next/navigation";
 import { MdOutlineLock } from "react-icons/md";
+import { sendJoiningRequest } from "@/actions";
 
 export default async function GroupsDetails({ params }) {
   const { groupId } = await params;
   let result;
+
+  const actionWithArgument = sendJoiningRequest.bind(null, groupId);
 
   try {
     result = await getGroupDetail(groupId);
@@ -31,7 +34,7 @@ export default async function GroupsDetails({ params }) {
 
             <div className="text-center mt-2">
               {/* <Button className="cursor-pointer">გაწევრიანება</Button> */}
-              <form>
+              <form action={actionWithArgument}>
                 <JoinGroup />
               </form>
             </div>

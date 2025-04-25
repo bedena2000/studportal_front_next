@@ -19,6 +19,7 @@ export default function HomeWelcome() {
           src="/images/registration_student.png"
           width={600}
           height={600}
+          priority={true}
         />
       </motion.div>
 

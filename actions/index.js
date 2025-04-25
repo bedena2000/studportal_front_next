@@ -434,3 +434,43 @@ export async function gellAllGroupsFiles(groupId) {
     return [];
   }
 }
+
+// Send joining request
+export async function sendJoiningRequest(groupId) {
+  const cookieStore = cookies();
+  const userToken = (await cookieStore).get("token");
+
+  const errors = [];
+
+  if (!userToken) {
+    errors.push("You have not provided token");
+  }
+
+  if (errors.length > 0) {
+    return {
+      errors,
+    };
+  }
+
+  try {
+    const request = await api.post(
+      `/groups/send_join_request?groupId=${Number(groupId)}`,
+      null,
+      {
+        headers: {
+          Authorization: `Bearer ${userToken.value}`,
+        },
+      }
+    );
+
+    console.log(request.data);
+    return {
+      data: request.data,
+    };
+  } catch (error) {
+    console.error(error);
+    return {
+      errors,
+    };
+  }
+}
