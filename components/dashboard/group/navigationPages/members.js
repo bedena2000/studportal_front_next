@@ -58,7 +58,7 @@ export default function NavigationMembers({ goBackFunc, groupId }) {
         </div>
       )}
 
-      <div className="mt-8">
+      <div className="flex flex-col gap-2 mt-8">
         {members &&
           members.length > 0 &&
           members.map((member) => (

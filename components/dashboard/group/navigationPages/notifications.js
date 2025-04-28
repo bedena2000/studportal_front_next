@@ -7,6 +7,7 @@ import { api } from "@/lib/fetching";
 import { GetCookie } from "@/actions/helpers";
 import { FaCheck } from "react-icons/fa6";
 import { IoCloseSharp } from "react-icons/io5";
+import { useActionState } from "react";
 
 export default function NavigationNotification({ goBackFunc, groupId }) {
   const [notificationList, setNotificationList] = useState([]);
@@ -30,7 +31,6 @@ export default function NavigationNotification({ goBackFunc, groupId }) {
         }
 
         setIsLoading(false);
-        console.log(result.data.requests);
       } catch (error) {
         setIsLoading(false);
         setIsError(true);
@@ -39,6 +39,56 @@ export default function NavigationNotification({ goBackFunc, groupId }) {
 
     getAllNotifications();
   }, []);
+
+  const handleAccept = async (event) => {
+    const userId = Number(
+      event.currentTarget.parentElement.parentElement.dataset.userid
+    );
+    const token = await GetCookie("token");
+    console.log(token);
+    console.log(groupId);
+    try {
+      await api.post(
+        `/requests/accept?userId=${userId}&groupId=${groupId}`,
+        null,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      window.location.reload();
+    } catch (error) {
+      console.error(error);
+      return;
+    }
+  };
+
+  const handleDecline = async (event) => {
+    const userId = Number(
+      event.currentTarget.parentElement.parentElement.dataset.userid
+    );
+    const token = await GetCookie("token");
+    console.log(token);
+    console.log(groupId);
+    try {
+      await api.post(
+        `/requests/decline?userId=${userId}&groupId=${groupId}`,
+        null,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      window.location.reload();
+    } catch (error) {
+      console.error(error);
+      return;
+    }
+  };
 
   return (
     <div>
@@ -61,6 +111,7 @@ export default function NavigationNotification({ goBackFunc, groupId }) {
             notificationList.map((notificationItem) => {
               return (
                 <div
+                  data-userid={notificationItem.User.id}
                   key={notificationItem.id}
                   className="flex items-center justify-between bg-sky-800 p-2 rounded-md"
                 >
@@ -69,11 +120,17 @@ export default function NavigationNotification({ goBackFunc, groupId }) {
                   </div>
 
                   <div className="flex items-center gap-2">
-                    <div className="bg-sky-950 rounded-md p-2 cursor-pointer">
+                    <div
+                      className="bg-sky-950 rounded-md p-2 cursor-pointer"
+                      onClick={handleAccept}
+                    >
                       <FaCheck size={16} className="cursor-pointer" />
                     </div>
 
-                    <div className="bg-sky-950 rounded-md p-2 cursor-pointer">
+                    <div
+                      className="bg-sky-950 rounded-md p-2 cursor-pointer"
+                      onClick={handleDecline}
+                    >
                       <IoCloseSharp size={16} className="cursor-pointer" />
                     </div>
                   </div>

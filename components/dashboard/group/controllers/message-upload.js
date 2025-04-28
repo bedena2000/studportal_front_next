@@ -21,7 +21,6 @@ export default function MessageAndUpload({ isAdmin, groupId }) {
     }
   }, [state]);
 
-
   return (
     <>
       <form className="flex gap-4" action={formAction}>
@@ -39,9 +38,14 @@ export default function MessageAndUpload({ isAdmin, groupId }) {
           <input type="text" name="groupId" defaultValue={groupId} hidden />
         </div>
 
-        <div>
-          <CustomServerButton message="გაგზავნა" pendingMessage="მესიჯი იგზავნება"  />
-        </div>
+        {isAdmin && (
+          <div>
+            <CustomServerButton
+              message="გაგზავნა"
+              pendingMessage="მესიჯი იგზავნება"
+            />
+          </div>
+        )}
       </form>
 
       {state && state.error && state.error.length > 0 && (

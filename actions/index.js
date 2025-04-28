@@ -474,3 +474,8 @@ export async function sendJoiningRequest(groupId) {
     };
   }
 }
+
+// Accept Join request
+export async function acceptJoinRequest(userId) {
+  
+}

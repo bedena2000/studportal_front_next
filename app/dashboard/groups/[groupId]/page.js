@@ -14,6 +14,7 @@ export default async function GroupsDetails({ params }) {
 
   try {
     result = await getGroupDetail(groupId);
+    console.log(result);
   } catch (error) {
     return notFound();
   }
